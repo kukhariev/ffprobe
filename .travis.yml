@@ -1,22 +1,22 @@
 dist: trusty
 language: node_js
 node_js:
-  - '8'
+- '8'
 before_install:
-  - sudo add-apt-repository ppa:mc3man/trusty-media -y
-  - sudo apt-get update -q
+- sudo add-apt-repository ppa:mc3man/trusty-media -y
+- sudo apt-get update -q
 install:
-  - sudo apt-get install ffmpeg -y
+- sudo apt-get install ffmpeg -y
 before_script:
-  - 'npm install'
+- npm install
 script:
-  - 'npm test'
-  - 'npm run build'
+- npm test
+- npm run build
 deploy:
   provider: npm
   email: q_h@inbox.ru
   api_key:
-    secure: er6awev391+ZrxCfyWl65rwpm7p03qjLXxcRI4/nGuPVv+FlsW7nl0XavnlBlhd0JqFeSr12AysEzmWemfLsuS2WXuuuZsoURU4KPAHOLMLACept/28Wk67BskyXH8oTxwhMvVNK1OPO6NyXFXyo5YDxx58QyWfFmTvar0atRNBzfwq4t/ox7r8WTA6Zc32t0ZMK1YFQqZTR+casazHNavtjxCtsS48zD9xXXKAaLf5MlJwZ+gH/51DW+U2lNJmhU/M50cUoTk3tIm/CJbtUbnMil/5kNhs1NWXSf3MGfqqavSD3q7Ftrzm9p9O9jFlhis8eKtfpgIPdhVV8Bc6EwN15Xugp8jJNaEjDEGtkKuOkiM9RMEfKDnko13+hTaceeCsG75fI9Y9aN2Oh8rAoCqaIqu5yKNubcRLt0EeDiNDrzWbkDeN3dYIMstcPiJicF8YFe/OsRoJKmWEMbnGeyefRIlsB2CrzVlO5IKFFI4qwiQVl4cbl8h7MRgxqkFw+ZGpc0tAmrSrKUBMYwKz7gl/1miGYtDn2CpXSbRpf4FeCQua3sUXsNKgBx/lPuogbbhtPWjbjlRx7hxuQAnucdpYvrSpJF+l2k+d8N/+RUqgvwYtRdXApeY/bNBOeW1yiwPvI9eHXDLAe8phtycZCHGuERpe6R7V791E/TRjXgX0=
+    secure: PZl41XUNkDTx7cAgoSNn7SpjReY3iowUz4HeFZ3CCmd1Bn1VFPCKjcXvZktuqWhJhssXKpfNwuMpbISe2BcPpnSgznBB30P79Ag0+FRgW+mVNcIaI5ITB3Dje+mSg5jD5Y4rjDiui2w4KTw9MjWaw6Qf09Tta7IQ3cFmGG6CTdQpDRmbFaKmLHiyZKY4gX2g+YO84bU2wwTdQCag9Ga1Hc1G/URh+tPu4daD7/t1u1HTAdXUFW7Kq7JkDAIV5Fl5gbbMsi4CGJBbwIUCo6RdFTMPaxydlz4HNuRXXnebiF5GezwIrLYz657c8QmGHybiv/tkw+T2kFjz7itW8FnqnXJOj+TYllciWIl0XtZIgpkb6qpornRo2bub4gUVy3KQG+uub0r7TYFjUqN8Gym8j33uvc5jlGRywtlmA5hZfi9V997oNCkW8cjU+Nqm87Pox2QE9YdR8qfMLwSNbrP8Dqo6nZ1YGVFzvyCtGLugXcDKWtCshJqYKwTu+bEXm7AomNUIPv1RZMeJ3Ep5DcAOhRs3NyZQX+qNIbd8vHgsHIRrTQAerlY4dK65QlCUV0DMcFRgoHs0dDYa+/TTk3+8hURviARneQii+u9pxUrHNupNXzApeJk1vi6iMMtZvBHYkqcwC+g1DubhycmYvr0pGot4+gt8qntPxUlIIXFRunI=
   on:
     tags: true
   skip_cleanup: true
