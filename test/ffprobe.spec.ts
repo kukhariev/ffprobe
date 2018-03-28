@@ -35,7 +35,6 @@ describe('ffprobe(node style callback)', () => {
   });
   it('should cause an error', () => {
     ffprobe('', (err) => {
-      console.log(err.message);
       expect(err).to.be.an('error');
     });
   });

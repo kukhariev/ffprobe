@@ -9,7 +9,7 @@ export interface FfprobeData {
  * Return stream[], format object.
  */
 function ffprobeSync(filePath: string): FfprobeData {
-  const child = spawnSync('ffprobe',
+  const child = spawnSync(process.env.FFPROBE_PATH || 'ffprobe',
     [
       '-v',
       'quiet',
@@ -37,7 +37,7 @@ function ffprobePromise(filePath: string): Promise<FfprobeData> {
   return new Promise((resolve, reject) => {
     let stdout = '';
     let data: FfprobeData;
-    const child = spawn('ffprobe',
+    const child = spawn(process.env.FFPROBE_PATH || 'ffprobe',
       [
         '-v',
         'quiet',

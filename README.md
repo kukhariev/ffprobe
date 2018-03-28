@@ -14,6 +14,8 @@ npm install  @dropb/ffprobe
 ## Usage
 
 ```js
+// optional: specify the binary path
+process.env.FFPROBE_PATH = '/usr/bin/ffprobe';
 const { ffprobe, ffprobeSync } = require('@dropb/ffprobe');
 
 // sync
