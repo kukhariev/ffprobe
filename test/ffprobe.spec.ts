@@ -1,12 +1,13 @@
-process.env.FFPROBE_PATH = 'ffprobe';
+import * as ffprobeStatic from 'ffprobe-static';
+process.env.FFPROBE_PATH = ffprobeStatic.path;
 import { expect } from 'chai';
 import { ffprobe, ffprobeSync } from '../src/';
-const testFile = './test/SampleVideo_640x360_1mb.flv';
+const testFile = './test/testfile.mp4';
 
 describe('ffprobeSync (sync)', () => {
   it('should return the duration', () => {
     const metadata = ffprobeSync(testFile);
-    expect(metadata.format.duration).to.equal('6.893000');
+    expect(metadata.format.duration).to.equal('10.000000');
   });
   it('should throw', () => {
     expect(() => ffprobeSync('')).to.throw();
@@ -16,7 +17,7 @@ describe('ffprobeSync (sync)', () => {
 describe('ffprobe (async/await)', () => {
   it('should return the duration', async () => {
     const metadata = await ffprobe(testFile);
-    expect(metadata.format.duration).to.equal('6.893000');
+    expect(metadata.format.duration).to.equal('10.000000');
   });
   it('should catch the error', async () => {
     try {
@@ -30,11 +31,11 @@ describe('ffprobe (async/await)', () => {
 describe('ffprobe(node style callback)', () => {
   it('should return the duration', () => {
     ffprobe(testFile, (err, data) => {
-      expect(data.format.duration).to.equal('6.893000');
+      expect(data.format.duration).to.equal('10.000000');
     });
   });
   it('should cause an error', () => {
-    ffprobe('', (err) => {
+    ffprobe('', err => {
       expect(err).to.be.an('error');
     });
   });
