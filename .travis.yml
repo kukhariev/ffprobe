@@ -2,13 +2,11 @@ dist: trusty
 language: node_js
 node_js:
 - '8'
-before_install:
-- sudo add-apt-repository ppa:mc3man/trusty-media -y
-- sudo apt-get update -q
-install:
-- sudo apt-get install ffmpeg -y
 before_script:
-- npm install
+- npm ci
+cache:
+  directories:
+  - "$HOME/.npm"
 script:
 - npm test
 - npm run build
