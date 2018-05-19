@@ -1,11 +1,14 @@
 import { spawnSync, spawn } from 'child_process';
+/**
+ * ffprobe info object
+ */
 export interface FfprobeData {
   stream: any[];
   format: any;
   chapters?: any[];
 }
 /**
- * Return stream[], format object.
+ * Return ffprobe info object for the specified file
  */
 function ffprobeSync(filePath: string): FfprobeData {
   const child = spawnSync(process.env.FFPROBE_PATH || 'ffprobe', [
@@ -30,7 +33,8 @@ function ffprobeSync(filePath: string): FfprobeData {
 }
 
 /**
- * Return stream[], format object.
+ * Return promise for ffprobe data object.
+ * @internal
  */
 function ffprobePromise(filePath: string): Promise<FfprobeData> {
   return new Promise((resolve, reject) => {
@@ -63,11 +67,20 @@ function ffprobePromise(filePath: string): Promise<FfprobeData> {
     });
   });
 }
-
+/**
+ * Returns promise for an object with the ffprobe info for the specified file
+ */
 function ffprobe(filePath: string): Promise<FfprobeData>;
-function ffprobe(filePath: string, callback: (err: Error, data: FfprobeData) => void): void;
+/**
+ * Asynchronous ffprobe
+ * @param filePath path/URL to a media file
+ */
+function ffprobe(
+  filePath: string,
+  callback: (err: Error, data?: FfprobeData) => void
+): void;
 
-function ffprobe(filePath: string, callback?: (err: Error, data?: FfprobeData) => void) {
+function ffprobe(filePath: string, callback?) {
   if (callback) {
     ffprobePromise(filePath)
       .then(data => callback(undefined, data))
