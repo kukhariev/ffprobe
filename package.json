@@ -1,6 +1,6 @@
 {
   "name": "@dropb/ffprobe",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "ffprobe wrapper",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
