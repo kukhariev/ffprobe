@@ -7,25 +7,32 @@ export interface FfprobeData {
   format: any;
   chapters?: any[];
 }
+
+const args = [
+  '-v',
+  'quiet',
+  '-print_format',
+  'json',
+  '-show_format',
+  '-show_streams',
+  '-i'
+];
 /**
  * Return ffprobe info object for the specified file
  */
 function ffprobeSync(filePath: string): FfprobeData {
   const child = spawnSync(process.env.FFPROBE_PATH || 'ffprobe', [
-    '-v',
-    'quiet',
-    '-print_format',
-    'json',
-    '-show_format',
-    '-show_streams',
-    '-i',
+    ...args,
     filePath
   ]);
   if (child.error) {
     throw new Error(child.error.message);
   }
-  const data: FfprobeData = JSON.parse(child.stdout.toString());
-  if (data.format) {
+  let data: FfprobeData;
+  try {
+    data = JSON.parse(child.stdout.toString());
+  } catch {}
+  if (data && data.format) {
     return data;
   } else {
     throw new Error(`ffprobe: error getting information from '${filePath}'`);
@@ -40,13 +47,7 @@ function ffprobePromise(filePath: string): Promise<FfprobeData> {
   return new Promise((resolve, reject) => {
     let stdout = '';
     const child = spawn(process.env.FFPROBE_PATH || 'ffprobe', [
-      '-v',
-      'quiet',
-      '-print_format',
-      'json',
-      '-show_format',
-      '-show_streams',
-      '-i',
+      ...args,
       filePath
     ]).on('error', err => {
       reject(err);
@@ -56,8 +57,11 @@ function ffprobePromise(filePath: string): Promise<FfprobeData> {
     });
 
     child.stdout.on('end', () => {
-      const data: FfprobeData = JSON.parse(stdout);
-      if (data.format) {
+      let data: FfprobeData;
+      try {
+        data = JSON.parse(stdout);
+      } catch {}
+      if (data && data.format) {
         resolve(data);
       } else {
         reject(
