@@ -1,21 +1,8 @@
 dist: trusty
 language: node_js
 node_js:
-- '8'
-before_script:
-- npm install -g npm@5.8.0
-- npm ci
-cache:
-  directories:
-  - "$HOME/.npm"
+  - '8'
+
 script:
-- npm test
-- npm run build
-deploy:
-  provider: npm
-  email: q_h@inbox.ru
-  api_key:
-    secure: PZl41XUNkDTx7cAgoSNn7SpjReY3iowUz4HeFZ3CCmd1Bn1VFPCKjcXvZktuqWhJhssXKpfNwuMpbISe2BcPpnSgznBB30P79Ag0+FRgW+mVNcIaI5ITB3Dje+mSg5jD5Y4rjDiui2w4KTw9MjWaw6Qf09Tta7IQ3cFmGG6CTdQpDRmbFaKmLHiyZKY4gX2g+YO84bU2wwTdQCag9Ga1Hc1G/URh+tPu4daD7/t1u1HTAdXUFW7Kq7JkDAIV5Fl5gbbMsi4CGJBbwIUCo6RdFTMPaxydlz4HNuRXXnebiF5GezwIrLYz657c8QmGHybiv/tkw+T2kFjz7itW8FnqnXJOj+TYllciWIl0XtZIgpkb6qpornRo2bub4gUVy3KQG+uub0r7TYFjUqN8Gym8j33uvc5jlGRywtlmA5hZfi9V997oNCkW8cjU+Nqm87Pox2QE9YdR8qfMLwSNbrP8Dqo6nZ1YGVFzvyCtGLugXcDKWtCshJqYKwTu+bEXm7AomNUIPv1RZMeJ3Ep5DcAOhRs3NyZQX+qNIbd8vHgsHIRrTQAerlY4dK65QlCUV0DMcFRgoHs0dDYa+/TTk3+8hURviARneQii+u9pxUrHNupNXzApeJk1vi6iMMtZvBHYkqcwC+g1DubhycmYvr0pGot4+gt8qntPxUlIIXFRunI=
-  on:
-    tags: true
-  skip_cleanup: true
+  - npm test
+  - npm run build
