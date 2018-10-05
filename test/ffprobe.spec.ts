@@ -17,7 +17,7 @@ describe('ffprobeSync (sync)', () => {
 describe('ffprobe (async/await)', () => {
   it('should return the duration', async () => {
     const metadata = await ffprobe(testFile);
-    expect(metadata.format.duration).to.equal('10.000000');
+    expect(metadata.streams[0].duration).to.equal('10.000000');
   });
   it('should catch the error', async () => {
     try {

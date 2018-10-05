@@ -3,7 +3,7 @@ import { spawnSync, spawn } from 'child_process';
  * ffprobe info object
  */
 export interface FfprobeData {
-  stream: any[];
+  streams: any[];
   format: any;
   chapters?: any[];
 }
