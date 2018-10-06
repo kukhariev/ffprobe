@@ -22,14 +22,14 @@ const args = [
  * Return ffprobe info object for the specified file
  */
 function ffprobeSync(filePath: string): FfprobeData {
-  const child = spawnSync(process.env.FFPROBE_PATH || 'ffprobe', [
+  const ffprobe = spawnSync(process.env.FFPROBE_PATH || 'ffprobe', [
     ...args,
     filePath
   ]);
-  if (child.error) {
-    throw new Error(child.error.message);
+  if (ffprobe.error) {
+    throw new Error(ffprobe.error.message);
   }
-  const data: FfprobeData = JSON.parse(child.stdout.toString());
+  const data: FfprobeData = JSON.parse(ffprobe.stdout.toString());
   if (data.error) {
     throw new Error(data.error.string);
   }
@@ -43,22 +43,20 @@ function ffprobeSync(filePath: string): FfprobeData {
 function ffprobePromise(filePath: string): Promise<FfprobeData> {
   return new Promise((resolve, reject) => {
     let stdout = '';
-    const child = spawn(process.env.FFPROBE_PATH || 'ffprobe', [
+    const ffprobe = spawn(process.env.FFPROBE_PATH || 'ffprobe', [
       ...args,
       filePath
-    ]).on('error', err => reject(err));
-    child.stdout.on('data', chunk => {
+    ]).once('error', err => reject(err));
+    ffprobe.stdout.on('data', chunk => {
       stdout += chunk.toString();
     });
-
-    child.stdout.once('end', () => {
-      let data: FfprobeData;
+    ffprobe.stdout.once('end', () => {
       try {
-        data = JSON.parse(stdout);
+        const data: FfprobeData = JSON.parse(stdout);
+        data.error ? reject(new Error(data.error.string)) : resolve(data);
       } catch (err) {
         reject(err);
       }
-      data.error ? reject(new Error(data.error.string)) : resolve(data);
     });
   });
 }
