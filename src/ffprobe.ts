@@ -5,7 +5,7 @@ import { spawnSync, spawn } from 'child_process';
 export interface FfprobeData {
   streams: any[];
   format: any;
-  chapters?: any[];
+  error?: { code: number; string: string };
 }
 
 const args = [
@@ -15,6 +15,7 @@ const args = [
   'json',
   '-show_format',
   '-show_streams',
+  '-show_error',
   '-i'
 ];
 /**
@@ -28,15 +29,11 @@ function ffprobeSync(filePath: string): FfprobeData {
   if (child.error) {
     throw new Error(child.error.message);
   }
-  let data: FfprobeData;
-  try {
-    data = JSON.parse(child.stdout.toString());
-  } catch {}
-  if (data && data.format) {
-    return data;
-  } else {
-    throw new Error(`ffprobe: error getting information from '${filePath}'`);
+  const data: FfprobeData = JSON.parse(child.stdout.toString());
+  if (data.error) {
+    throw new Error(data.error.string);
   }
+  return data;
 }
 
 /**
@@ -49,25 +46,19 @@ function ffprobePromise(filePath: string): Promise<FfprobeData> {
     const child = spawn(process.env.FFPROBE_PATH || 'ffprobe', [
       ...args,
       filePath
-    ]).on('error', err => {
-      reject(err);
-    });
+    ]).on('error', err => reject(err));
     child.stdout.on('data', chunk => {
       stdout += chunk.toString();
     });
 
-    child.stdout.on('end', () => {
+    child.stdout.once('end', () => {
       let data: FfprobeData;
       try {
         data = JSON.parse(stdout);
-      } catch {}
-      if (data && data.format) {
-        resolve(data);
-      } else {
-        reject(
-          new Error(`ffprobe: error getting information from '${filePath}'`)
-        );
+      } catch (err) {
+        reject(err);
       }
+      data.error ? reject(new Error(data.error.string)) : resolve(data);
     });
   });
 }

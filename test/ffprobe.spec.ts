@@ -22,6 +22,7 @@ describe('ffprobe (async/await)', () => {
   it('should catch the error', async () => {
     try {
       await ffprobe('');
+      throw new Error('Expected an error!');
     } catch (error) {
       expect(error).to.be.an('error');
     }
@@ -32,6 +33,7 @@ describe('ffprobe(node style callback)', () => {
   it('should return the duration', () => {
     ffprobe(testFile, (err, data) => {
       expect(data.format.duration).to.equal('10.000000');
+      expect(err).to.be.undefined;
     });
   });
   it('should cause an error', () => {
