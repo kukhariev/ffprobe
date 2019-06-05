@@ -21,17 +21,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.1.5",
+    "@types/chai": "^4.1.7",
     "@types/ffprobe-static": "^2.0.0",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^10.11.2",
     "chai": "^4.2.0",
     "ffprobe-static": "^3.0.0",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.2",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "typescript": "^3.1.1"
+    "mocha": "^6.1.4",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.4.5"
   },
   "dependencies": {},
   "publishConfig": {
