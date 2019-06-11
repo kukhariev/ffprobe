@@ -34,7 +34,7 @@ describe('ffprobe(node style callback)', () => {
   it('should return the duration', () => {
     ffprobe(testFile, (err, metadata) => {
       expect(+metadata.format.duration).to.equal(10);
-      expect(err).to.be.undefined;
+      expect(err).to.be.null;
     });
   });
   it('should cause an error', () => {

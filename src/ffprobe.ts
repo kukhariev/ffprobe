@@ -76,7 +76,7 @@ function ffprobe(
 function ffprobe(filePath: string, callback?) {
   if (callback) {
     ffprobePromise(filePath)
-      .then(data => callback(undefined, data))
+      .then(data => callback(null, data))
       .catch(callback);
   } else return ffprobePromise(filePath);
 }
