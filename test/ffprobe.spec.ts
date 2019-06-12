@@ -21,12 +21,13 @@ describe('ffprobe (async/await)', () => {
     expect(+metadata.format.duration).to.equal(10);
   });
   it('should catch the error', async () => {
+    let error = undefined;
     try {
       await ffprobe('');
-      throw new Error('Expected an error!');
-    } catch (err) {
-      expect(err).to.be.an('error');
+    } catch (e) {
+      error = e;
     }
+    expect(error).to.be.an('Error');
   });
 });
 
