@@ -20,33 +20,28 @@ const { ffprobe, ffprobeSync } = require('@dropb/ffprobe');
 // it's also possible:
 ffprobe.FFPROBE_PATH = '/usr/bin/ffprobe';
 
-// promise
-ffprobe('./testfile.mp4')
-  .then(data => console.log(data.format.duration))
-  .catch(e => console.error(e));
-
 // async/await
 async function run() {
   try {
     // file
     const data = await ffprobe('./testfile.mp4');
     console.log(data.format.duration);
-  } catch (e){
-    console.error(e)
+  } catch (e) {
+    console.error(e);
   }
   try {
     // URL
     const { streams } = await ffprobe('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
     console.log(streams[0].width);
-  } catch (e){
-    console.error(e)
+  } catch (e) {
+    console.error(e);
   }
   try {
     // Readable Stream
     const { format } = await ffprobe(createReadStream('./testfile.mp4'));
     console.log(format.duration);
-  } catch (e){
-    console.error(e)
+  } catch (e) {
+    console.error(e);
   }
 }
 run();
@@ -63,8 +58,22 @@ ffprobe('./testfile.mp4', (err, data) => {
 // sync
 const data = ffprobeSync('./testfile.mp4');
 console.log(data.format.duration);
-
 ```
+
+## API
+
+```ts
+/**
+ *
+ * Run ffprobe on specified input
+ * @param src FilePath / URL / Readable Stream
+ */
+function ffprobe(input: string | Stream): Promise<FfprobeData>;
+function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) => void): void;
+```
+
+> interface
+> [FfprobeData](src/interfaces.ts)
 
 ## License
 
