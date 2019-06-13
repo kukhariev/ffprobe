@@ -1,13 +1,9 @@
-import { spawnSync, spawn } from 'child_process';
-/**
- * ffprobe info object
- */
-export interface FfprobeData {
-  streams: any[];
-  format: any;
-  error?: { code: number; string: string };
-}
+import { ChildProcess, spawn, spawnSync } from 'child_process';
+import { Stream } from 'stream';
+import { deprecate } from 'util';
+import { FfprobeData, FfprobeError } from './interfaces';
 
+const FFPROBE_PATH = process.env.FFPROBE_PATH || module.exports.FFPROBE_PATH || 'ffprobe';
 const args = [
   '-v',
   'quiet',
@@ -17,62 +13,90 @@ const args = [
   '-show_streams',
   '-show_error',
   '-i'
-];
+] as const;
+
 /**
- * Return ffprobe info object for the specified file
+ * @internal
  */
-function ffprobeSync(filePath: string): FfprobeData {
-  const { error, stdout } = spawnSync(process.env.FFPROBE_PATH || 'ffprobe', [...args, filePath]);
+const parseStdout = (stdout: string) => {
+  let value: FfprobeData | FfprobeError;
+  try {
+    value = JSON.parse(stdout);
+    if ('format' in value) {
+      return { value };
+    }
+    if ('error' in value) {
+      return { error: new Error(value.error.string) };
+    } else {
+      return { error: new Error('No data available') };
+    }
+  } catch (error) {
+    return { error };
+  }
+};
+
+/**
+ * @internal
+ */
+const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
+  return new Promise((resolve, reject) => {
+    const buffer = [];
+    let spawned: ChildProcess;
+    if (typeof input === 'string') {
+      spawned = spawn(FFPROBE_PATH, [...args, input]);
+    } else if (isStream(input)) {
+      spawned = spawn(FFPROBE_PATH, [...args, 'pipe:0']);
+      input.once('error', e => reject(e));
+      input.pipe(spawned.stdin);
+    } else {
+      reject(new TypeError('Provided argument is neither a string nor a stream'));
+    }
+    spawned.once('error', reject);
+    spawned.stdout.on('data', chunk => buffer.push(chunk));
+    spawned.stdout.once('end', () => {
+      const data = parseStdout(buffer.join(''));
+      data.error ? reject(data.error) : resolve(data.value);
+    });
+  });
+};
+
+/**
+ *
+ * Run ffprobe on specified input
+ * @param src FilePath / URL / Readable Stream
+ */
+export function ffprobe(input: string | Stream): Promise<FfprobeData>;
+export function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) => void): void;
+export function ffprobe(input: string | Stream, cb?) {
+  if (cb) {
+    ffprobePromise(input)
+      .then(data => cb(null, data))
+      .catch(cb);
+  } else {
+    return ffprobePromise(input);
+  }
+}
+
+function isStream(input: string | Stream): input is Stream {
+  return input instanceof Stream && typeof (input as any)._read === 'function';
+}
+
+/**
+ * @deprecated
+ */
+function ffprobeSyncDeprecated(input: string): FfprobeData {
+  const { error, stdout } = spawnSync(FFPROBE_PATH, [...args, input]);
   if (error) {
     throw error;
   }
-  const data: FfprobeData = JSON.parse(stdout.toString() || 'null');
-  if (!data) {
-    throw new Error('No data available');
-  }
+  const data = parseStdout(stdout.toString());
   if (data.error) {
-    throw new Error(data.error.string);
+    throw data.error;
   }
-  return data;
-}
-
-/**
- * Return promise for ffprobe data object.
- * @internal
- */
-function ffprobePromise(filePath: string): Promise<FfprobeData> {
-  return new Promise((resolve, reject) => {
-    let stdout = '';
-    const ffprobe = spawn(process.env.FFPROBE_PATH || 'ffprobe', [...args, filePath]).once(
-      'error',
-      reject
-    );
-    ffprobe.stdout.on('data', chunk => {
-      stdout += chunk;
-    });
-    ffprobe.stdout.once('end', () => {
-      const data: FfprobeData = JSON.parse(stdout.toString() || 'null');
-      !data && reject(new Error('No data available'));
-      data.error ? reject(new Error(data.error.string)) : resolve(data);
-    });
-  });
+  return data.value;
 }
 /**
- * Returns promise for an object with the ffprobe info for the specified file
+ * Return ffprobe info object for the specified file
+ * @deprecated Use async versions
  */
-function ffprobe(filePath: string): Promise<FfprobeData>;
-/**
- * Asynchronous ffprobe
- * @param filePath path/URL to a media file
- */
-function ffprobe(filePath: string, callback: (err: Error, data?: FfprobeData) => void): void;
-
-function ffprobe(filePath: string, callback?) {
-  if (callback) {
-    ffprobePromise(filePath)
-      .then(data => callback(null, data))
-      .catch(callback);
-  } else return ffprobePromise(filePath);
-}
-
-export { ffprobe, ffprobeSync };
+export const ffprobeSync = deprecate(ffprobeSyncDeprecated, 'ffprobeSync() is deprecated.');
