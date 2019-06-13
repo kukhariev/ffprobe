@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import * as ffprobeStatic from 'ffprobe-static';
-import { createReadStream } from 'fs';
-import { Readable, Writable } from 'stream';
-import { ffprobe, ffprobeSync } from '../src/';
 process.env.FFPROBE_PATH = ffprobeStatic.path;
+import { createReadStream } from 'fs';
+import { Writable } from 'stream';
+import { ffprobe, ffprobeSync } from '../src/';
 
 const testFile = './test/testfile.mp4';
 const testStream = createReadStream(testFile);

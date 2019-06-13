@@ -3,7 +3,7 @@ import { Stream } from 'stream';
 import { deprecate } from 'util';
 import { FfprobeData, FfprobeError } from './interfaces';
 
-const FFPROBE_PATH = process.env.FFPROBE_PATH || module.exports.FFPROBE_PATH || 'ffprobe';
+const FFPROBE_PATH = process.env.FFPROBE_PATH || 'ffprobe';
 const args = [
   '-v',
   'quiet',
