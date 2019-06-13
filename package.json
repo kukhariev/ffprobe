@@ -9,10 +9,10 @@
     "build": "npm run tslint && npm run clean && npm run build:ts ",
     "test": "./node_modules/.bin/mocha",
     "test:watch": "./node_modules/.bin/mocha --watch",
+    "prettier": "prettier --write \"**/*.{json,md,ts}\"",
     "build:ts": "tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "preversion": "npm run build",
-    "postversion": "git push --follow-tags && npm publish"
+    "postversion": "npm run build && git push --follow-tags"
   },
   "author": "kukhariev",
   "repository": {
@@ -28,13 +28,11 @@
     "chai": "^4.2.0",
     "ffprobe-static": "^3.0.0",
     "mocha": "^6.1.4",
+    "prettier": "1.18.2",
     "rimraf": "^2.6.3",
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.5"
-  },
-  "dependencies": {},
-  "publishConfig": {
-    "access": "public"
   }
 }
