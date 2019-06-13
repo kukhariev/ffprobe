@@ -2,12 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "./lib",
-    "target": "es2015",
+    "target": "es2017",
     "moduleResolution": "node",
-    "declaration":true,
-    "declarationDir": "./lib"
+    "declaration": true,
+    "declarationDir": "./lib",
+    "stripInternal": true
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"]
 }

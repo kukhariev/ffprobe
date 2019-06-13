@@ -14,32 +14,64 @@ npm install  @dropb/ffprobe
 ## Usage
 
 ```js
-// optional: specify the binary path
+// optional: specify the binary path:
 process.env.FFPROBE_PATH = '/usr/bin/ffprobe';
 const { ffprobe, ffprobeSync } = require('@dropb/ffprobe');
 
-// sync
-const data = ffprobeSync('./testfile.mp4');
-console.log(data.format.duration);
-
-// promise
-ffprobe('./testfile.mp4')
-  .then(data => console.log(data.format.duration))
-  .catch(err => console.error(err));
-
 // async/await
 async function run() {
-  const data = await ffprobe('./testfile.mp4');
-  console.log(data.format.duration)
+  try {
+    // file
+    const data = await ffprobe('./testfile.mp4');
+    console.log(data.format.duration);
+  } catch (e) {
+    console.error(e);
+  }
+  try {
+    // URL
+    const { streams } = await ffprobe('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+    console.log(streams[0].width);
+  } catch (e) {
+    console.error(e);
+  }
+  try {
+    // Readable Stream
+    const { format } = await ffprobe(createReadStream('./testfile.mp4'));
+    console.log(format.duration);
+  } catch (e) {
+    console.error(e);
+  }
 }
 run();
 
 // node-style callback
 ffprobe('./testfile.mp4', (err, data) => {
-  if (err) { console.error(err); }
-  else { console.log(data.format.duration); }
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(data.format.duration);
+  }
 });
+
+// sync
+const data = ffprobeSync('./testfile.mp4');
+console.log(data.format.duration);
 ```
+
+## API
+
+```ts
+/**
+ *
+ * Run ffprobe on specified input
+ * @param src FilePath / URL / Readable Stream
+ */
+function ffprobe(input: string | Stream): Promise<FfprobeData>;
+function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) => void): void;
+```
+
+> interface
+> [FfprobeData](src/interfaces.ts)
 
 ## License
 
