@@ -3,7 +3,6 @@ import { Stream } from 'stream';
 import { deprecate } from 'util';
 import { FfprobeData, FfprobeError } from './interfaces';
 
-const FFPROBE_PATH = process.env.FFPROBE_PATH || 'ffprobe';
 const args = [
   '-v',
   'quiet',
@@ -15,6 +14,7 @@ const args = [
   '-i'
 ] as const;
 
+ffprobe.path = 'ffprobe';
 /**
  * @internal
  */
@@ -43,9 +43,9 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
     const buffer = [];
     let spawned: ChildProcess;
     if (typeof input === 'string') {
-      spawned = spawn(FFPROBE_PATH, [...args, input]);
+      spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, input]);
     } else if (isStream(input)) {
-      spawned = spawn(FFPROBE_PATH, [...args, 'pipe:0']);
+      spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, 'pipe:0']);
       input.once('error', e => reject(e));
       input.pipe(spawned.stdin);
     } else {
@@ -85,7 +85,7 @@ function isStream(input: string | Stream): input is Stream {
  * @deprecated
  */
 function ffprobeSyncDeprecated(input: string): FfprobeData {
-  const { error, stdout } = spawnSync(FFPROBE_PATH, [...args, input]);
+  const { error, stdout } = spawnSync(process.env.FFPROBE_PATH || ffprobe.path, [...args, input]);
   if (error) {
     throw error;
   }

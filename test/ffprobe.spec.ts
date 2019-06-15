@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import * as ffprobeStatic from 'ffprobe-static';
-process.env.FFPROBE_PATH = ffprobeStatic.path;
 import { createReadStream } from 'fs';
 import { Writable } from 'stream';
 import { ffprobe, ffprobeSync } from '../src/';
@@ -10,6 +9,8 @@ const testStream = createReadStream(testFile);
 const testURL = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 const invalidStream = new Writable();
 
+// process.env.FFPROBE_PATH = ffprobeStatic.path;
+ffprobe.path = ffprobeStatic.path;
 describe('ffprobeSync(input)', () => {
   it('testFile', () => {
     const metadata = ffprobeSync(testFile);
