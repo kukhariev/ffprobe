@@ -5,3 +5,5 @@ tslint.json
 .editorconfig
 .travis.yml
 .vscode
+prettier.config.
+.prettierignore
