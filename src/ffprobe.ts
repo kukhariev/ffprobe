@@ -46,7 +46,7 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
       spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, input]);
     } else if (isStream(input)) {
       spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, 'pipe:0']);
-      input.once('error', e => reject(e));
+      input.once('error', reject);
       input.pipe(spawned.stdin);
     } else {
       reject(new TypeError('Provided argument is neither a string nor a stream'));

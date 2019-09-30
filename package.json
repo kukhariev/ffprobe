@@ -2,13 +2,14 @@
   "name": "@dropb/ffprobe",
   "version": "1.4.1",
   "description": "ffprobe wrapper",
+  "files": ["lib"],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run tslint && npm run clean && npm run build:ts ",
-    "test": "./node_modules/.bin/mocha",
-    "test:watch": "./node_modules/.bin/mocha --watch",
+    "test": "mocha",
+    "test:watch": "mocha --watch",
     "prettier": "prettier --write \"**/*.{json,md,ts}\"",
     "build:ts": "tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
@@ -21,18 +22,18 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
+    "@types/chai": "^4.2.3",
     "@types/ffprobe-static": "^2.0.0",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^10.11.2",
+    "@types/node": "^12.7.8",
     "chai": "^4.2.0",
     "ffprobe-static": "^3.0.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.1",
     "prettier": "1.18.2",
-    "rimraf": "^2.6.3",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.6.3"
   }
 }
