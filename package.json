@@ -9,12 +9,12 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "npm run tslint && npm run clean && npm run build:ts ",
+    "build": "npm run lint && npm run clean && npm run build:ts ",
     "test": "mocha",
     "test:watch": "mocha --watch",
     "prettier": "prettier --write \"**/*.{json,md,ts}\"",
     "build:ts": "tsc",
-    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
     "postversion": "npm run build && git push --follow-tags"
   },
   "author": "kukhariev",
