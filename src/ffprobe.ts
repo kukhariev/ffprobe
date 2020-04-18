@@ -1,7 +1,7 @@
 import { ChildProcess, spawn, spawnSync } from 'child_process';
 import { Stream } from 'stream';
 import { deprecate } from 'util';
-import { FfprobeData, FfprobeError } from './interfaces';
+import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces';
 
 const args = [
   '-v',
@@ -66,8 +66,8 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
  * @param src FilePath / URL / Readable Stream
  */
 export function ffprobe(input: string | Stream): Promise<FfprobeData>;
-export function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) => void): void;
-export function ffprobe(input: string | Stream, cb?) {
+export function ffprobe(input: string | Stream, cb: FfprobeCallback): void;
+export function ffprobe(input: string | Stream, cb?: FfprobeCallback) {
   if (cb) {
     ffprobePromise(input)
       .then(data => cb(null, data))

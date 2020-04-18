@@ -1,4 +1,6 @@
-# @dropb/ffprobe
+# Fork of @dropb/ffprobe
+
+Submitting PRs back to the original repo.
 
 [![npm](https://img.shields.io/npm/v/@dropb/ffprobe.svg?)](https://www.npmjs.com/package/@dropb/ffprobe)
 [![build](https://img.shields.io/travis/kukhariev/ffprobe.svg?)](https://travis-ci.org/kukhariev/ffprobe)
@@ -14,7 +16,6 @@ npm install  @dropb/ffprobe
 ## Usage
 
 ```js
-
 import { ffprobe, ffprobeSync } from '@dropb/ffprobe';
 // optional: specify the ffprobe path
 import * as ffprobeStatic from 'ffprobe-static';
