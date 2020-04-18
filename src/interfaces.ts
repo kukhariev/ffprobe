@@ -1,4 +1,6 @@
 /**
+ * Error information
+ *
  * @internal
  */
 export interface FfprobeError {
@@ -11,10 +13,10 @@ export interface FfprobeError {
 /**
  * ffprobe info object
  */
-
 export interface FfprobeData {
   streams: Stream[];
   format: Format;
+  programs?: FfprobeProgram[];
 }
 
 interface Format {
@@ -28,7 +30,7 @@ interface Format {
   size: string;
   bit_rate: string;
   probe_score: number;
-  tags: any;
+  tags: Tags;
 }
 
 interface Stream {
@@ -63,4 +65,50 @@ interface Stream {
   bit_rate: string;
   bits_per_raw_sample: string;
   nb_frames: string;
+  sample_fmt: string;
+  sample_rate: string;
+  channels: number;
+  channel_layout: string;
+  bits_per_sample: number;
+  disposition: Disposition;
+  tags: Tags;
+}
+
+export interface FfprobeOpts {
+  startTime?: string;
+  endTime?: string;
+  path?: string;
+}
+
+export type FfprobeCallback = (err: Error, data?: FfprobeData) => void;
+
+interface FfprobeProgram {
+  program_id: number;
+  program_num: number;
+  nb_streams: number;
+  pmt_pid: number;
+  pcr_pid: number;
+  start_pts: number;
+  start_time: string;
+  tags: Tags;
+  streams: Stream[];
+}
+
+interface Disposition {
+  default: number;
+  dub: number;
+  original: number;
+  comment: number;
+  lyrics: number;
+  karaoke: number;
+  forced: number;
+  hearing_impaired: number;
+  visual_impaired: number;
+  clean_effects: number;
+  attached_pic: number;
+  timed_thumbnails: number;
+}
+
+interface Tags {
+  [key: string]: string;
 }

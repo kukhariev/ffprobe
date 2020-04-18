@@ -14,7 +14,6 @@ npm install  @dropb/ffprobe
 ## Usage
 
 ```js
-
 import { ffprobe, ffprobeSync } from '@dropb/ffprobe';
 // optional: specify the ffprobe path
 import * as ffprobeStatic from 'ffprobe-static';

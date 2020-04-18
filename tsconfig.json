@@ -5,7 +5,8 @@
     "target": "es2017",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "./lib"
+    "declarationDir": "./lib",
+    "types": ["node", "mocha"]
   },
   "include": ["./src/**/*"]
 }
