@@ -40,5 +40,12 @@
     "tslint": "6.1.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.9.5"
+  },
+  "mocha": {
+    "extension": [
+      "ts"
+    ],
+    "spec": "test/**/*.spec.ts",
+    "require": "ts-node/register"
   }
 }
