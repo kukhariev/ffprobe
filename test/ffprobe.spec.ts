@@ -9,8 +9,9 @@ const testStream = createReadStream(testFile);
 const testURL = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 const invalidStream = new Writable();
 
-// process.env.FFPROBE_PATH = ffprobeStatic.path;
 ffprobe.path = ffprobeStatic.path;
+
+
 describe('ffprobeSync(input)', () => {
   it('testFile', () => {
     const metadata = ffprobeSync(testFile);
@@ -44,7 +45,7 @@ describe('ffprobe(input)', () => {
     expect(error).to.be.an('Error');
   });
   it('invalidStream', async () => {
-    let error;
+    let error: any;
     try {
       await ffprobe(invalidStream);
     } catch (e) {
@@ -77,5 +78,26 @@ describe('ffprobe(input, cb)', () => {
       expect(err).to.be.an('error');
       done();
     });
+  });
+});
+
+describe('ffprobe path', () => {
+  it('process.env.FFPROBE_PATH', async () => {
+    ffprobe.path = '???';
+    process.env.FFPROBE_PATH = ffprobeStatic.path;
+    const metadata = await ffprobe(testFile);
+    expect(+metadata.format.duration).to.equal(10);
+  });
+
+  it('invalid', async () => {
+    ffprobe.path = '???'
+    delete process.env.FFPROBE_PATH;
+    let error: any;
+    try {
+      await ffprobe(testFile);
+    } catch (e) {
+      error = e;
+    }
+    expect(error).to.be.an('Error');
   });
 });
