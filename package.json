@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/chai": "4.2.12",
     "@types/ffprobe-static": "2.0.0",
-    "@types/mocha": "8.0.1",
+    "@types/mocha": "8.0.2",
     "@types/node": "10.17.28",
     "chai": "4.2.0",
     "ffprobe-static": "3.0.0",
