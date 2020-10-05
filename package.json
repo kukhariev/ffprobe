@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "4.2.12",
+    "@types/chai": "4.2.13",
     "@types/ffprobe-static": "2.0.0",
     "@types/mocha": "8.0.3",
     "@types/node": "10.17.35",
