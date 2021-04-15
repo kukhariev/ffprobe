@@ -30,7 +30,7 @@
     "@types/chai": "4.2.16",
     "@types/ffprobe-static": "2.0.0",
     "@types/mocha": "8.2.2",
-    "@types/node": "10.17.56",
+    "@types/node": "10.17.57",
     "chai": "4.3.4",
     "ffprobe-static": "3.0.0",
     "mocha": "8.3.2",
