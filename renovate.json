@@ -1,4 +1,9 @@
 {
-  "extends": ["config:base"],
-  "supportPolicy": ["all"]
+  "extends": [
+    "config:base",
+    "group:allNonMajor",
+    ":semanticCommitTypeAll(chore)",
+    "helpers:disableTypesNodeMajor",
+    "schedule:weekends"
+  ]
 }
