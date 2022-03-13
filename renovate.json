@@ -1,4 +1,9 @@
 {
-  "extends": ["config:base"],
-  "supportPolicy": ["all"]
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    "helpers:disableTypesNodeMajor",
+    "schedule:weekends"
+  ],
+  "baseBranches": ["deps"]
 }
