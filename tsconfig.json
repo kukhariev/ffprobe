@@ -8,5 +8,5 @@
     "declarationDir": "./lib",
     "types": ["node", "mocha"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./test/*.spec.ts"]
 }
