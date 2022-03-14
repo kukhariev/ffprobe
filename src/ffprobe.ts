@@ -19,9 +19,8 @@ ffprobe.path = 'ffprobe';
  * @internal
  */
 const parseStdout = (stdout: string) => {
-  let value: FfprobeData | FfprobeError;
   try {
-    value = JSON.parse(stdout) as FfprobeData | FfprobeError;
+    const value = JSON.parse(stdout) as FfprobeData | FfprobeError;
     if ('format' in value) {
       return { value };
     }

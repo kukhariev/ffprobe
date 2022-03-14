@@ -1,8 +1,0 @@
-{
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rules": {
-    "no-unused-expression": false,
-    "interface-name": false,
-    "no-implicit-dependencies": false
-  }
-}
