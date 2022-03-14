@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  
+
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -12,8 +12,11 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
-    sourceType: 'module'
+    ecmaVersion: 'node',
+    sourceType: 'module',
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json', './test/tsconfig.json'],
+    warnOnUnsupportedTypeScriptVersion: false
   },
   plugins: ['@typescript-eslint']
 };

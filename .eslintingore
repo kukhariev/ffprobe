@@ -1,9 +1,0 @@
-dist/
-scripts/
-lib/
-tmp/
-temp/
-node_modules/
-coverage/
-.eslintrc.js
-*.config.js
