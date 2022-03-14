@@ -1,5 +1,5 @@
 import { ChildProcess, spawn, spawnSync } from 'child_process';
-import { Stream } from 'stream';
+import { Readable, Stream } from 'stream';
 import { deprecate } from 'util';
 import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces';
 
@@ -21,7 +21,7 @@ ffprobe.path = 'ffprobe';
 const parseStdout = (stdout: string) => {
   let value: FfprobeData | FfprobeError;
   try {
-    value = JSON.parse(stdout);
+    value = JSON.parse(stdout) as FfprobeData | FfprobeError;
     if ('format' in value) {
       return { value };
     }
@@ -31,7 +31,7 @@ const parseStdout = (stdout: string) => {
       return { error: new Error('No data available') };
     }
   } catch (error) {
-    return { error };
+    return { error: error as Error };
   }
 };
 
@@ -63,7 +63,7 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
 /**
  *
  * Run ffprobe on specified input
- * @param src FilePath / URL / Readable Stream
+ * @param input FilePath / URL / Readable Stream
  */
 export function ffprobe(input: string | Stream): Promise<FfprobeData>;
 export function ffprobe(input: string | Stream, cb: FfprobeCallback): void;
@@ -78,7 +78,7 @@ export function ffprobe(input: string | Stream, cb?: FfprobeCallback) {
 }
 
 function isStream(input: string | Stream): input is Stream {
-  return input instanceof Stream && typeof (input as any)._read === 'function';
+  return input instanceof Stream && typeof (input as Readable)._read === 'function';
 }
 
 /**

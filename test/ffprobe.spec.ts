@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as ffprobeStatic from 'ffprobe-static';
 import { createReadStream } from 'fs';
 import { Writable } from 'stream';
-import { ffprobe, ffprobeSync } from '../src/';
+import { ffprobe, ffprobeSync } from '../src';
 
 const testFile = './test/testfile.mp4';
 const testStream = createReadStream(testFile);
@@ -36,7 +36,7 @@ describe('ffprobe(input)', () => {
     expect(+metadata.format.duration).to.equal(10);
   });
   it('invalidFile', async () => {
-    let error;
+    let error: unknown;
     try {
       await ffprobe('');
     } catch (e) {
@@ -45,7 +45,7 @@ describe('ffprobe(input)', () => {
     expect(error).to.be.an('Error');
   });
   it('invalidStream', async () => {
-    let error: any;
+    let error: unknown;
     try {
       await ffprobe(invalidStream);
     } catch (e) {
@@ -54,7 +54,7 @@ describe('ffprobe(input)', () => {
     expect(error).to.be.an('Error');
   });
   it('invalidUrl', async () => {
-    let error;
+    let error: unknown;
     try {
       await ffprobe('http://example.com/m.mp4');
     } catch (e) {
@@ -92,7 +92,7 @@ describe('ffprobe path', () => {
   it('invalid', async () => {
     ffprobe.path = '???'
     delete process.env.FFPROBE_PATH;
-    let error: any;
+    let error: unknown;
     try {
       await ffprobe(testFile);
     } catch (e) {
