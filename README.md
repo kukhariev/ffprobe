@@ -1,7 +1,7 @@
 # @dropb/ffprobe
 
-[![npm](https://img.shields.io/npm/v/@dropb/ffprobe.svg?)](https://www.npmjs.com/package/@dropb/ffprobe)
-[![build](https://img.shields.io/travis/kukhariev/ffprobe.svg?)](https://travis-ci.org/kukhariev/ffprobe)
+[![npm version][npm-image]][npm-url] [![Build status][gha-image]][gha-url]
+[![commits since latest release][comm-image]][comm-url]
 
 simple ffprobe wrapper
 
@@ -79,3 +79,10 @@ function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) =>
 ## License
 
 [MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/@dropb/ffprobe.svg
+[npm-url]: https://www.npmjs.com/package/@dropb/ffprobe
+[gha-image]: https://github.com/kukhariev/ffprobe/workflows/CI/badge.svg
+[gha-url]: https://github.com/kukhariev/ffprobe/actions
+[comm-image]: https://img.shields.io/github/commits-since/kukhariev/ffprobe/latest
+[comm-url]: https://github.com/kukhariev/ffprobe/releases/latest
