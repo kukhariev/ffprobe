@@ -6,11 +6,10 @@ import { ffprobe, ffprobeSync } from '../src';
 
 const testFile = './test/testfile.mp4';
 const testStream = createReadStream(testFile);
-const testURL = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+const testURL = 'https://github.com/kukhariev/ffprobe/raw/master/test/testfile.mp4';
 const invalidStream = new Writable();
 
 ffprobe.path = ffprobeStatic.path;
-
 
 describe('ffprobeSync(input)', () => {
   it('testFile', () => {
@@ -90,7 +89,7 @@ describe('ffprobe path', () => {
   });
 
   it('invalid', async () => {
-    ffprobe.path = '???'
+    ffprobe.path = '???';
     delete process.env.FFPROBE_PATH;
     let error: unknown;
     try {
