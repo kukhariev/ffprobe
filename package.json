@@ -38,7 +38,7 @@
     "chai": "4.3.6",
     "eslint": "^8.11.0",
     "ffprobe-static": "3.0.0",
-    "mocha": "9.2.2",
+    "mocha": "10.0.0",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "ts-node": "10.7.0",
