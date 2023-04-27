@@ -80,7 +80,7 @@ export interface FfprobeOpts {
   path?: string;
 }
 
-export type FfprobeCallback = (err: Error, data?: FfprobeData) => void;
+export type FfprobeCallback = (err: Error | null, data?: FfprobeData) => void;
 
 interface FfprobeProgram {
   program_id: number;

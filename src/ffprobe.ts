@@ -39,19 +39,21 @@ const parseStdout = (stdout: string) => {
  */
 const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
   return new Promise((resolve, reject) => {
-    const buffer = [];
+    const buffer: unknown[] = [];
     let spawned: ChildProcess;
     if (typeof input === 'string') {
       spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, input]);
     } else if (isStream(input)) {
       spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, 'pipe:0']);
       input.once('error', reject);
+      if (!spawned.stdin) return reject(new Error('Error starting ffprobe'));
       input.pipe(spawned.stdin);
     } else {
-      reject(new TypeError('Provided argument is neither a string nor a stream'));
+      return reject(new TypeError('Provided argument is neither a string, nor a stream'));
     }
+    if (!spawned.stdout) return reject(new Error('Error starting ffprobe'));
     spawned.once('error', reject);
-    spawned.stdout.on('data', chunk => buffer.push(chunk));
+    spawned.stdout.on('data', (chunk) => buffer.push(chunk));
     spawned.stdout.once('end', () => {
       const data = parseStdout(buffer.join(''));
       data.error ? reject(data.error) : resolve(data.value);
@@ -69,7 +71,7 @@ export function ffprobe(input: string | Stream, cb: FfprobeCallback): void;
 export function ffprobe(input: string | Stream, cb?: FfprobeCallback) {
   if (cb) {
     ffprobePromise(input)
-      .then(data => cb(null, data))
+      .then((data) => cb(null, data))
       .catch(cb);
   } else {
     return ffprobePromise(input);
