@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as ffprobeStatic from 'ffprobe-static';
 import { createReadStream } from 'fs';
 import { Writable } from 'stream';
-import { ffprobe, ffprobeSync } from '../src';
+import { ffprobe, ffprobeSync } from '../src/ffprobe';
 
 const testFile = './test/testfile.mp4';
 const testStream = createReadStream(testFile);
@@ -29,7 +29,7 @@ describe('ffprobe(input)', () => {
   it('testURL', async () => {
     const metadata = await ffprobe(testURL);
     expect(metadata.format.filename).to.equal(testURL);
-  });
+  }).timeout(10000);
   it('testStream', async () => {
     const metadata = await ffprobe(testStream);
     expect(+metadata.format.duration).to.equal(10);
@@ -64,16 +64,15 @@ describe('ffprobe(input)', () => {
 });
 
 describe('ffprobe(input, cb)', () => {
-  it('testFile', done => {
+  it('testFile', (done) => {
     ffprobe(testFile, (err, metadata) => {
-      const res = +metadata.format.duration;
-      expect(res).to.equal(10);
+      expect(Number(metadata?.format?.duration)).to.equal(10);
       expect(err).to.be.null;
       done();
     });
   });
-  it('invalidFile', done => {
-    ffprobe('', err => {
+  it('invalidFile', (done) => {
+    ffprobe('', (err) => {
       expect(err).to.be.an('error');
       done();
     });
@@ -90,7 +89,7 @@ describe('ffprobe path', () => {
 
   it('invalid', async () => {
     ffprobe.path = '???';
-    delete process.env.FFPROBE_PATH;
+    process.env.FFPROBE_PATH = undefined;
     let error: unknown;
     try {
       await ffprobe(testFile);
