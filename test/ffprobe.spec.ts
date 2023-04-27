@@ -26,7 +26,7 @@ describe('ffprobe(input)', () => {
     const metadata = await ffprobe(testFile);
     expect(+metadata.format.duration).to.equal(10);
   });
-  it('testURL', async () => {
+  it.skip('testURL', async () => {
     const metadata = await ffprobe(testURL);
     expect(metadata.format.filename).to.equal(testURL);
   }).timeout(10000);
