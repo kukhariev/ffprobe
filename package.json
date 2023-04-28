@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=14.17.0"
   },
   "scripts": {
     "clean": "rimraf lib",
