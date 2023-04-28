@@ -1,9 +1,0 @@
-/src
-/test
-tsconfig.json
-tslint.json
-.editorconfig
-.travis.yml
-.vscode
-prettier.config.
-.prettierignore

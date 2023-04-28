@@ -1,2 +1,2 @@
-export * from './ffprobe';
-export * from './interfaces';
+export * from './ffprobe.js';
+export * from './interfaces.js';

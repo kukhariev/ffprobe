@@ -1,7 +1,7 @@
 import { ChildProcess, spawn, spawnSync } from 'child_process';
 import { Readable, Stream } from 'stream';
 import { deprecate } from 'util';
-import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces';
+import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces.js';
 
 const args = [
   '-v',

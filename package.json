@@ -2,20 +2,25 @@
   "name": "@dropb/ffprobe",
   "version": "2.0.1",
   "description": "ffprobe wrapper",
-  "files": [
-    "lib"
-  ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "files": ["lib"],
+  "main": "./lib/index.js",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs",
+      "types": "./lib/index.d.ts"
+    }
+  },
   "engines": {
     "node": ">=14.17.0"
   },
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "npm run lint && npm run clean && npm run build:ts ",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean --out-dir lib",
+    "build:watch": "npm run build -- --watch src",
     "test": "mocha",
     "test:watch": "mocha --watch",
-    "build:ts": "tsc",
     "lint": "rome check src test",
     "format": "rome format --write src test",
     "postversion": "npm run build && git push --follow-tags"
@@ -37,12 +42,11 @@
     "rimraf": "5.0.0",
     "rome": "12.0.0",
     "ts-node": "10.9.1",
+    "tsup": "^6.7.0",
     "typescript": "5.0.4"
   },
   "mocha": {
-    "extension": [
-      "ts"
-    ],
+    "extension": ["ts"],
     "spec": "test/**/*.spec.ts",
     "require": "ts-node/register"
   }
