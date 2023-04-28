@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
-    "outDir": "./lib",
-    "target": "es2018",
+    "target": "es2020",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "./lib",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["ES2020"],
     "types": ["node", "mocha"]
   },
   "include": ["./src/**/*"],
