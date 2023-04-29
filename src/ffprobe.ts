@@ -1,4 +1,4 @@
-import { ChildProcess, spawn, spawnSync } from 'child_process';
+import { execFile, spawnSync } from 'child_process';
 import { Readable, Stream } from 'stream';
 import { deprecate } from 'util';
 import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces.js';
@@ -39,25 +39,21 @@ const parseStdout = (stdout: string) => {
  */
 const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
   return new Promise((resolve, reject) => {
-    const buffer: unknown[] = [];
-    let spawned: ChildProcess;
-    if (typeof input === 'string') {
-      spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, input]);
-    } else if (isStream(input)) {
-      spawned = spawn(process.env.FFPROBE_PATH || ffprobe.path, [...args, 'pipe:0']);
-      input.once('error', reject);
-      if (!spawned.stdin) return reject(new Error('Error starting ffprobe'));
-      input.pipe(spawned.stdin);
-    } else {
-      return reject(new TypeError('Provided argument is neither a string, nor a stream'));
+    const inputIsStream = isStream(input);
+    const source = inputIsStream ? 'pipe:0' : input;
+    const { stdin } = execFile(
+      process.env.FFPROBE_PATH || ffprobe.path,
+      [...args, source],
+      (error, stdout, stderr) => {
+        if (error) return reject(error);
+        const data = parseStdout(stdout);
+        return data.error ? reject(data.error) : resolve(data.value);
+      }
+    );
+    if (inputIsStream) {
+      if (!stdin) return reject(new Error('Error opening stdin'));
+      input.pipe(stdin);
     }
-    if (!spawned.stdout) return reject(new Error('Error starting ffprobe'));
-    spawned.once('error', reject);
-    spawned.stdout.on('data', (chunk) => buffer.push(chunk));
-    spawned.stdout.once('end', () => {
-      const data = parseStdout(buffer.join(''));
-      data.error ? reject(data.error) : resolve(data.value);
-    });
   });
 };
 
