@@ -1,0 +1,11 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "demo:esm": "node demo",
+    "demo:cjs": "node demo.cjs",
+    "demo:ts": "ts-node demo"
+  },
+  "dependencies": {}
+}
