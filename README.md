@@ -14,12 +14,18 @@ npm install  @dropb/ffprobe
 ## Usage
 
 ```js
+// This is a hybrid module that can be loaded with import
 import { ffprobe, ffprobeSync } from '@dropb/ffprobe';
+// or require()
+// const { ffprobe, ffprobeSync } = require('@dropb/ffprobe');
+
 // optional: specify the ffprobe path
-import * as ffprobeStatic from 'ffprobe-static';
-process.env.FFPROBE_PATH = ffprobeStatic.path;
+import { path as ffprobePath } from 'ffprobe-static';
+ffprobe.path = ffprobePath;
 // or
-// ffprobe.path = ffprobeStatic.path;
+// process.env.FFPROBE_PATH = ffprobePath;
+
+
 
 // async/await
 async function run() {
@@ -65,12 +71,11 @@ console.log(data.format.duration);
 
 ```ts
 /**
- *
  * Run ffprobe on specified input
- * @param src FilePath / URL / Readable Stream
+ * @param input FilePath / URL / Readable Stream
  */
 function ffprobe(input: string | Stream): Promise<FfprobeData>;
-function ffprobe(input: string | Stream, cb: (err: Error, data?: FfprobeData) => void): void;
+function ffprobe(input: string | Stream, cb: FfprobeCallback): void;
 ```
 
 > interface

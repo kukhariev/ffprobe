@@ -58,7 +58,6 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
 };
 
 /**
- *
  * Run ffprobe on specified input
  * @param input FilePath / URL / Readable Stream
  */
