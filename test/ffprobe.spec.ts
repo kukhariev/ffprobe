@@ -4,9 +4,9 @@ import { createReadStream } from 'fs';
 import { Writable } from 'stream';
 import { ffprobe, ffprobeSync } from '../src/ffprobe';
 
-const testFile = './test/testfile.mp4';
+const testFile = './test/test file.mp4';
 const testStream = createReadStream(testFile);
-const testURL = 'https://github.com/kukhariev/ffprobe/raw/master/test/testfile.mp4';
+const testURL = 'https://github.com/kukhariev/ffprobe/raw/master/test/test%20file.mp4';
 const invalidStream = new Writable();
 
 ffprobe.path = ffprobeStatic.path;
@@ -26,10 +26,11 @@ describe('ffprobe(input)', () => {
     const metadata = await ffprobe(testFile);
     expect(+metadata.format.duration).to.equal(10);
   });
-  it.skip('testURL', async () => {
+  // todo: https://github.com/kukhariev/ffprobe/issues/163#issue-1688898375
+  (process.platform === 'linux' ? it.skip : it)('testURL', async () => {
     const metadata = await ffprobe(testURL);
     expect(metadata.format.filename).to.equal(testURL);
-  }).timeout(10000);
+  }).timeout(5000);
   it('testStream', async () => {
     const metadata = await ffprobe(testStream);
     expect(+metadata.format.duration).to.equal(10);
@@ -52,7 +53,8 @@ describe('ffprobe(input)', () => {
     }
     expect(error).to.be.an('Error');
   });
-  it('invalidUrl', async () => {
+  // todo: https://github.com/kukhariev/ffprobe/issues/163#issue-1688898375
+  (process.platform === 'linux' ? it.skip : it)('invalidUrl', async () => {
     let error: unknown;
     try {
       await ffprobe('http://example.com/m.mp4');
@@ -60,7 +62,7 @@ describe('ffprobe(input)', () => {
       error = e;
     }
     expect(error).to.be.an('Error');
-  });
+  }).timeout(5000);
 });
 
 describe('ffprobe(input, cb)', () => {
