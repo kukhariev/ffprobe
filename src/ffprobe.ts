@@ -1,7 +1,7 @@
 import { execFile, spawnSync } from 'child_process';
 import { Readable, Stream } from 'stream';
 import { deprecate } from 'util';
-import { FfprobeData, FfprobeError, FfprobeCallback } from './interfaces.js';
+import { FfprobeCallback, FfprobeData, FfprobeError } from './interfaces.js';
 
 const args = [
   '-v',
