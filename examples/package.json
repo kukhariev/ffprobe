@@ -1,0 +1,11 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node basic",
+    "start:cjs": "node basic.cjs"
+  },
+  "dependencies": {
+  }
+}
