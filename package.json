@@ -22,8 +22,8 @@
     "build:watch": "npm run build -- --watch src",
     "test": "mocha",
     "test:watch": "mocha --watch",
-    "lint": "rome check src test",
-    "format": "rome format --write src test",
+    "lint": "rome check src test examples",
+    "format": "rome format --write src test examples",
     "postversion": "npm run build && git push --follow-tags"
   },
   "author": "kukhariev",
