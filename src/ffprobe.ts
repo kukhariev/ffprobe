@@ -25,13 +25,17 @@ const parseStdout = (stdout: string) => {
       return { value };
     }
     if ('error' in value) {
-      return { error: new Error(value.error.string) };
-    } else {
-      return { error: new Error('No data available') };
+      return {
+        error: Object.assign(new Error(value.error.string), {
+          name: 'FfprobeError',
+          code: value.error.code
+        })
+      };
     }
-  } catch (error) {
-    return { error: error as Error };
-  }
+  } catch {}
+  return {
+    error: Object.assign(new Error('Erroneous response from ffprobe'), { stdout })
+  };
 };
 
 /**
@@ -44,10 +48,10 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
     const { stdin } = execFile(
       process.env.FFPROBE_PATH || ffprobe.path,
       [...args, source],
-      (error, stdout, stderr) => {
-        if (error) return reject(error);
-        const data = parseStdout(stdout);
-        return data.error ? reject(data.error) : resolve(data.value);
+      (ex, stdout, stderr) => {
+        if (!stdout) return reject(ex || new Error('No output from ffprobe'));
+        const { error, value } = parseStdout(stdout);
+        return error ? reject(error) : resolve(value);
       }
     );
     if (inputIsStream) {

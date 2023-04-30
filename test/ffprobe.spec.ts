@@ -36,13 +36,17 @@ describe('ffprobe(input)', () => {
     expect(+metadata.format.duration).to.equal(10);
   });
   it('invalidFile', async () => {
-    let error: unknown;
+    // rome-ignore lint/suspicious/noExplicitAny:
+    let error: any;
     try {
       await ffprobe('');
     } catch (e) {
       error = e;
     }
     expect(error).to.be.an('Error');
+    expect(error.message).to.contain('No such file or directory');
+    expect(error.name).to.equal('FfprobeError');
+    expect(error.code).to.equal(-2);
   });
   it('invalidStream', async () => {
     let error: unknown;
