@@ -1,9 +1,9 @@
 const { ffprobe } = require('../lib/index.js');
 const { createReadStream } = require('fs');
 // optional: specify the ffprobe path
-process.env.FFPROBE_PATH = require('ffprobe-static').path;
+ffprobe.path = require('ffprobe-static').path;
 // or
-// ffprobe.path = ffprobeStatic.path;
+// process.env.FFPROBE_PATH = require('ffprobe-static').path;
 
 // async/await
 async function run() {
