@@ -41,13 +41,13 @@
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/chai": "5.0.1",
+    "@types/chai": "4.3.7",
     "@types/ffprobe-static": "2.0.3",
     "@types/mocha": "10.0.10",
     "@types/node": "22.13.9",
-    "chai": "5.2.0",
+    "chai": "4.5.0",
     "ffprobe-static": "3.1.0",
-    "mocha": "11.1.0",
+    "mocha": "10.8.2",
     "ts-node": "10.9.2",
     "tsup": "^8.4.0",
     "typescript": "5.8.2"
