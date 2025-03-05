@@ -1,7 +1,7 @@
+import { createReadStream } from 'node:fs';
+import { Writable } from 'node:stream';
 import { expect } from 'chai';
 import * as ffprobeStatic from 'ffprobe-static';
-import { createReadStream } from 'fs';
-import { Writable } from 'stream';
 import { ffprobe, ffprobeSync } from '../src/ffprobe';
 
 const testFile = './test/test file.mp4';
@@ -36,7 +36,7 @@ describe('ffprobe(input)', () => {
     expect(+metadata.format.duration).to.equal(10);
   });
   it('invalidFile', async () => {
-    // rome-ignore lint/suspicious/noExplicitAny:
+    // biome-ignore lint/suspicious/noExplicitAny:
     let error: any;
     try {
       await ffprobe('');

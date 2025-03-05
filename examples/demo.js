@@ -1,7 +1,7 @@
-import { createReadStream } from 'fs';
-import { ffprobe } from '../lib/index.mjs';
+import { createReadStream } from 'node:fs';
 // optional: specify the ffprobe path
 import { path as ffprobePath } from 'ffprobe-static';
+import { ffprobe } from '../lib/index.mjs';
 ffprobe.path = ffprobePath;
 // or
 // process.env.FFPROBE_PATH  = ffprobePath;
