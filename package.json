@@ -30,7 +30,7 @@
     "build:watch": "npm run build -- --watch src",
     "test": "mocha",
     "test:watch": "mocha --watch",
-    "lint": "biome check src test examples",
+    "lint": "biome check --write src test examples",
     "postversion": "npm run build && git push --follow-tags"
   },
   "author": "kukhariev",
