@@ -17,9 +17,9 @@
   "types": "./lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./lib/index.d.mts",
       "require": "./lib/index.js",
-      "import": "./lib/index.mjs",
-      "types": "./lib/index.d.ts"
+      "import": "./lib/index.mjs"
     }
   },
   "engines": {
@@ -40,17 +40,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/chai": "4.3.7",
+    "@biomejs/biome": "2.4.4",
+    "@types/chai": "5.2.3",
     "@types/ffprobe-static": "2.0.3",
     "@types/mocha": "10.0.10",
-    "@types/node": "22.13.9",
-    "chai": "4.5.0",
+    "@types/node": "22.19.13",
+    "chai": "6.2.2",
     "ffprobe-static": "3.1.0",
-    "mocha": "10.8.2",
+    "mocha": "11.7.5",
     "ts-node": "10.9.2",
-    "tsup": "^8.4.0",
-    "typescript": "5.8.2"
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3"
   },
   "mocha": {
     "extension": [
