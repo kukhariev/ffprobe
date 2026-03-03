@@ -3,30 +3,20 @@ name: CI
 on: [push]
 
 jobs:
-  run:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [18, 22, 23]
         os: [ubuntu-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node_version }}
-        uses: actions/setup-node@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node_version }}
-      - name: install
-        run: |
-          npm install
-        env:
-          CI: true
-      - name: lint
-        run: |
-          npm run lint
-      - name: test
-        run: npm test
-        env:
-          CI: true
-      - name: build
-        run: npm run build
+          node-version: 24
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
