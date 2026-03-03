@@ -1,5 +1,6 @@
 import { createReadStream } from 'node:fs';
 import { ffprobe } from '../lib/index.js';
+
 // optional: specify the ffprobe path
 ffprobe.path = require('ffprobe-static').path;
 // or

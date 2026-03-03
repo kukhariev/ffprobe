@@ -48,7 +48,7 @@ const ffprobePromise = (input: string | Stream): Promise<FfprobeData> => {
     const { stdin } = execFile(
       process.env.FFPROBE_PATH || ffprobe.path,
       [...args, source],
-      (ex, stdout, stderr) => {
+      (ex, stdout) => {
         if (!stdout) return reject(ex || new Error('No output from ffprobe'));
         const { error, value } = parseStdout(stdout);
         return error ? reject(error) : resolve(value);

@@ -36,7 +36,7 @@ describe('ffprobe(input)', () => {
     expect(+metadata.format.duration).to.equal(10);
   });
   it('invalidFile', async () => {
-    // biome-ignore lint/suspicious/noExplicitAny:
+    // biome-ignore lint/suspicious/noExplicitAny: test
     let error: any;
     try {
       await ffprobe('');
